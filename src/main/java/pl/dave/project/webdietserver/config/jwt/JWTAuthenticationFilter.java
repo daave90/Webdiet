@@ -50,10 +50,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
-        String token = JWT.create()
+        String token = JWTConstants.TOKEN_PREFIX + JWT.create()
                 .withSubject(((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + JWTConstants.EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(JWTConstants.SECRET.getBytes()));
-        response.addHeader(JWTConstants.HEADER_STRING, JWTConstants.TOKEN_PREFIX + token);
+
+        response.addHeader(JWTConstants.HEADER_STRING, token);
+        response.addHeader("Content-Type", "application/json");
+        response.getWriter().write(String.format("{ \"%s\":\"%s\" }", "jwtToken", token));
     }
 }
