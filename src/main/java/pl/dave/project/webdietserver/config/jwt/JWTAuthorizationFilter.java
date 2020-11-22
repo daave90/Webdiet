@@ -54,7 +54,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .getSubject();
 
             if (username != null) {
-                User user = userService.findByUsername(username);
+                User user = userService.findByEmail(username);
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
                 return new UsernamePasswordAuthenticationToken(username, null, Arrays.asList(authority));
             }

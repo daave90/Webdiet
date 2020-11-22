@@ -3,6 +3,7 @@ package pl.dave.project.webdietserver.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.IteratorUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,12 +34,15 @@ public class UserService implements UserDetailsService {
     public User save(User user) {
         log.info("**************************************************************************************************");
         log.info("Register new user: " + user);
-        checkIfUsernameExists(user);
+        checkIfEmailExists(user);
         if (user.getRole() == UserRole.ADMIN) {
             checkIfAdminExistInDatabase();
         }
         validatePassword(user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (StringUtils.isNotEmpty(user.getMailPassword())) {
+            user.setMailPassword(passwordEncoder.encode(user.getMailPassword()));
+        }
         return userRepository.save(user);
     }
 
@@ -91,28 +95,32 @@ public class UserService implements UserDetailsService {
         User userToUpdate = userRepository.findById(guid).orElse(null);
         if (userToUpdate != null && (getCurrentLoginUser().getRole() == UserRole.ADMIN ||
                 (getCurrentLoginUser().getGuid().equals(guid)))) {
-            if (!source.getUsername().equals(userToUpdate.getUsername())) {
-                checkIfUsernameExists(source);
+            if (!source.getEmail().equals(userToUpdate.getEmail())) {
+                checkIfEmailExists(source);
             }
             userToUpdate = mapper.update(userToUpdate, source);
             validatePassword(userToUpdate.getPassword());
             userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
+            if (StringUtils.isNotEmpty(userToUpdate.getMailPassword())) {
+                userToUpdate.setMailPassword(passwordEncoder.encode(userToUpdate.getMailPassword()));
+
+            }
             return userRepository.save(userToUpdate);
         }
         throw new RestApiException(ErrorCode.UPDATE_WRONG_RESOURCE);
     }
 
-    private void checkIfUsernameExists(User userToUpdate) {
-        List<String> usernames = list().stream()
-                .map(User::getUsername)
+    private void checkIfEmailExists(User userToUpdate) {
+        List<String> emails = list().stream()
+                .map(User::getEmail)
                 .collect(Collectors.toList());
-        if (usernames.contains(userToUpdate.getUsername())) {
-            throw new RestApiException(ErrorCode.USERNAME_EXISTS);
+        if (emails.contains(userToUpdate.getEmail())) {
+            throw new RestApiException(ErrorCode.EMAIL_EXISTS);
         }
     }
 
     public User getCurrentLoginUser() {
-        return userRepository.findByUsername(SecurityConfig.getCurrentUsername());
+        return userRepository.findByEmail(SecurityConfig.getCurrentUsername());
     }
 
     public void checkIfAdminExistInDatabase() {
@@ -126,15 +134,15 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), Collections.emptyList());
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.emptyList());
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

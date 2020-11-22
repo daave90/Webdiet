@@ -15,18 +15,21 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User extends AbstractEntity {
 
-    private String username;
+    private String email;
     private String password;
     private String firstName;
     private String lastName;
     private boolean enabled = true;
+    private String mailHost;
+    private long mailPort;
+    private String mailPassword;
 
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
     @Override
     public String toString() {
-        return username + " " + firstName + " " + lastName + " " + enabled + " " + role;
+        return email + " " + firstName + " " + lastName + " " + enabled + " " + role;
     }
 }
 

@@ -6,5 +6,5 @@ import pl.dave.project.webdietserver.entity.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, String> {
-    User findByUsername(String username);
+    User findByEmail(String username);
 }

@@ -9,9 +9,9 @@ import java.util.List;
 
 public class TestUtils {
 
-    public static User createUser(String username, String firstname, String lastName, String password, UserRole role) {
+    public static User createUser(String email, String firstname, String lastName, String password, UserRole role) {
         User admin = new User();
-        admin.setUsername(username);
+        admin.setEmail(email);
         admin.setPassword(password);
         admin.setEnabled(true);
         admin.setRole(role);
