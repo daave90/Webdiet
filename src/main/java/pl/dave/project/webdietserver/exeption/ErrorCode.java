@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
-    EMAIL_EXISTS("This username exists in database."),
+    USERNAME_EXISTS("This username exists in database."),
     USER_NOT_EXISTS("User not exists in database."),
     GET_WRONG_RESOURCE("You cannot read resource which not belongs to your account."),
     DELETE_WRONG_RESOURCE("You cannot delete resource which not belongs to your account."),

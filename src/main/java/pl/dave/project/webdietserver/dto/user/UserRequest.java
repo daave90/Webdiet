@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class UserRequest {
 
     @NotNull
-    private String email;
+    private String username;
 
     @NotNull
     private String password;
@@ -18,8 +18,4 @@ public class UserRequest {
 
     @NotNull
     private String lastName;
-
-    private String mailHost;
-    private Long mailPort;
-    private String mailPassword;
 }

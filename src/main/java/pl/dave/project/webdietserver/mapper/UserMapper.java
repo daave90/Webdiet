@@ -28,6 +28,6 @@ public abstract class UserMapper {
     @Mapping(target = "ver", ignore = true)
     public abstract User update(@MappingTarget User target, User source);
 
-    @Mapping(target = "name", source = "email")
+    @Mapping(target = "name", source = "username")
     public abstract NameAndGuid toNameAndGuid(User user);
 }

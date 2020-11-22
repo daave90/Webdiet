@@ -11,7 +11,7 @@ public class TestUtils {
 
     public static User createUser(String email, String firstname, String lastName, String password, UserRole role) {
         User admin = new User();
-        admin.setEmail(email);
+        admin.setUsername(email);
         admin.setPassword(password);
         admin.setEnabled(true);
         admin.setRole(role);
