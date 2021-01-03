@@ -23,7 +23,6 @@ public abstract class ShoppingListMapper {
     private RecipeService recipeService;
 
     @Mapping(target = "guid", ignore = true)
-    @Mapping(target = "ver", ignore = true)
     @Mapping(target = "creationTimestamp", ignore = true)
     @Mapping(target = "productsAndWeight", ignore = true)
     @Mapping(target = "user", ignore = true)
@@ -94,6 +93,5 @@ public abstract class ShoppingListMapper {
     public abstract List<ShoppingListListRecord> toListRecords(List<ShoppingList> shoppingLists);
 
     @Mapping(target = "guid", ignore = true)
-    @Mapping(target = "ver", ignore = true)
     public abstract ShoppingList update(@MappingTarget ShoppingList target, ShoppingList source);
 }

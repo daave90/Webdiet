@@ -14,7 +14,6 @@ import java.util.List;
 public abstract class UserMapper {
 
     @Mapping(target = "guid", ignore = true)
-    @Mapping(target = "ver", ignore = true)
     @Mapping(target = "creationTimestamp", ignore = true)
     @Mapping(target = "enabled", ignore = true)
     @Mapping(target = "role", ignore = true)
@@ -25,7 +24,6 @@ public abstract class UserMapper {
     public abstract List<UserListRecord> toListRecords(List<User> user);
 
     @Mapping(target = "guid", ignore = true)
-    @Mapping(target = "ver", ignore = true)
     public abstract User update(@MappingTarget User target, User source);
 
     @Mapping(target = "name", source = "username")

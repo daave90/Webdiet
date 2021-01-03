@@ -14,7 +14,6 @@ import java.util.List;
 public abstract class ProductMapper {
 
     @Mapping(target = "guid", ignore = true)
-    @Mapping(target = "ver", ignore = true)
     @Mapping(target = "creationTimestamp", ignore = true)
     @Mapping(target = "user", ignore = true)
     public abstract Product toEntity(ProductRequest request);
@@ -24,7 +23,6 @@ public abstract class ProductMapper {
     public abstract List<ProductListRecord> toListRecords(List<Product> product);
 
     @Mapping(target = "guid", ignore = true)
-    @Mapping(target = "ver", ignore = true)
     public abstract Product update(@MappingTarget Product target, Product source);
 
     public abstract NameAndGuid toNameAndGuid(Product product);

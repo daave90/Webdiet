@@ -14,7 +14,6 @@ import java.util.List;
 public abstract class RecipeMapper {
 
     @Mapping(target = "guid", ignore = true)
-    @Mapping(target = "ver", ignore = true)
     @Mapping(target = "creationTimestamp", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "totalKcal", ignore = true)
@@ -25,7 +24,6 @@ public abstract class RecipeMapper {
     public abstract List<RecipeListRecord> toListRecords(List<Recipe> recipes);
 
     @Mapping(target = "guid", ignore = true)
-    @Mapping(target = "ver", ignore = true)
     @Mapping(target = "products", ignore = true)
     public abstract Recipe update(@MappingTarget Recipe target, Recipe source);
 

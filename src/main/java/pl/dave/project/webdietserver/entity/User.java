@@ -1,18 +1,13 @@
 package pl.dave.project.webdietserver.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.mongodb.core.mapping.Document;
 import pl.dave.project.webdietserver.entity.enums.UserRole;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
-
-@Entity
-@Getter
-@Setter
-@Table(name = "user")
+@Data
+@Document
+@EqualsAndHashCode(callSuper = true)
 public class User extends AbstractEntity {
 
     private String username;
@@ -20,8 +15,6 @@ public class User extends AbstractEntity {
     private String firstName;
     private String lastName;
     private boolean enabled = true;
-
-    @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
     @Override
