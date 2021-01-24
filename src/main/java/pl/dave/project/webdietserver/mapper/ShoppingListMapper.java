@@ -1,5 +1,6 @@
 package pl.dave.project.webdietserver.mapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,12 +23,18 @@ public abstract class ShoppingListMapper {
     @Autowired
     private RecipeService recipeService;
 
-    @Mapping(target = "guid", ignore = true)
     @Mapping(target = "creationTimestamp", ignore = true)
     @Mapping(target = "productsAndWeight", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "recipes", ignore = true)
     public abstract ShoppingList toEntity(ShoppingListRequest request);
+
+    @AfterMapping
+    void setGuid(ShoppingListRequest request, @MappingTarget ShoppingList shoppingList) {
+        if (!StringUtils.isEmpty(request.getGuid())) {
+            shoppingList.setGuid(request.getGuid());
+        }
+    }
 
     @AfterMapping
     void setRecipes(ShoppingListRequest request, @MappingTarget ShoppingList shoppingList) {

@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 @Data
 public class UserRequest {
 
+    private String guid;
+
     @NotNull
     private String username;
 

@@ -1,5 +1,7 @@
 package pl.dave.project.webdietserver.mapper;
 
+import org.apache.commons.lang3.StringUtils;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -13,11 +15,17 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {ProductMapper.class, UserMapper.class})
 public abstract class RecipeMapper {
 
-    @Mapping(target = "guid", ignore = true)
     @Mapping(target = "creationTimestamp", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "totalKcal", ignore = true)
     public abstract Recipe toEntity(RecipeRequest request);
+
+    @AfterMapping
+    void setGuid(RecipeRequest request, @MappingTarget Recipe recipe) {
+        if (!StringUtils.isEmpty(request.getGuid())) {
+            recipe.setGuid(request.getGuid());
+        }
+    }
 
     public abstract RecipeListRecord toListRecord(Recipe recipe);
 

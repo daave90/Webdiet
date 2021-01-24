@@ -10,6 +10,8 @@ import java.util.Map;
 @Data
 public class RecipeRequest {
 
+    private String guid;
+
     @NotNull
     private String name;
 

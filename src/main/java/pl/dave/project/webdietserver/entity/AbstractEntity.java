@@ -10,6 +10,15 @@ import java.util.UUID;
 public class AbstractEntity {
 
     @Id
-    protected String guid = UUID.randomUUID().toString();
-    protected long creationTimestamp = Instant.now().toEpochMilli();
+    protected String guid;
+    protected long creationTimestamp;
+
+    public AbstractEntity(String guid) {
+        this.guid = guid;
+        this.creationTimestamp = Instant.now().toEpochMilli();
+    }
+
+    public AbstractEntity() {
+        this(UUID.randomUUID().toString());
+    }
 }

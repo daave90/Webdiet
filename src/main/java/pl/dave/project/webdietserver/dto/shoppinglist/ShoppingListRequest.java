@@ -10,6 +10,8 @@ import java.util.Set;
 @Data
 public class ShoppingListRequest {
 
+    private String guid;
+
     @NotNull
     private int daysNumber;
     private Set<NameAndGuid> recipes = new HashSet<>();
