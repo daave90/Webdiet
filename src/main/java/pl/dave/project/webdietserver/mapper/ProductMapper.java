@@ -34,4 +34,8 @@ public abstract class ProductMapper {
     public abstract Product update(@MappingTarget Product target, Product source);
 
     public abstract NameAndGuid toNameAndGuid(Product product);
+
+    public abstract ProductRequest toRequest(Product product);
+
+    public abstract List<ProductRequest> toRequests(List<Product> products);
 }

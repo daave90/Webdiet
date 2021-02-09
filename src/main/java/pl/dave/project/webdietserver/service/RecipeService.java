@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.stereotype.Service;
+import pl.dave.project.webdietserver.dto.recipe.RecipeRequest;
 import pl.dave.project.webdietserver.entity.Recipe;
 import pl.dave.project.webdietserver.entity.User;
 import pl.dave.project.webdietserver.entity.enums.UserRole;
@@ -123,5 +124,9 @@ public class RecipeService {
         } else {
             throw new RestApiException(ErrorCode.DELETE_WRONG_RESOURCE);
         }
+    }
+
+    public List<RecipeRequest> mapToRequestList(User user) {
+        return mapper.toRequests(list(user));
     }
 }

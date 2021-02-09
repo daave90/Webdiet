@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.dave.project.webdietserver.config.SecurityConfig;
+import pl.dave.project.webdietserver.dto.user.UserRequest;
 import pl.dave.project.webdietserver.entity.User;
 import pl.dave.project.webdietserver.entity.enums.UserRole;
 import pl.dave.project.webdietserver.exeption.ErrorCode;
@@ -123,6 +124,14 @@ public class UserService implements UserDetailsService {
         if (!isAdminInDb) {
             throw new RestApiException(ErrorCode.ADMIN_ACCOUNT_EXIST_IN_DB);
         }
+    }
+
+    public UserRequest mapToRequest(User user) {
+        return mapper.toRequest(user);
+    }
+
+    public List<UserRequest> mapToRequestList() {
+        return mapper.toRequests(list());
     }
 
     @Override

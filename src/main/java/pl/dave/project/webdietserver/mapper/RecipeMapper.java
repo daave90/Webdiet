@@ -36,4 +36,8 @@ public abstract class RecipeMapper {
     public abstract Recipe update(@MappingTarget Recipe target, Recipe source);
 
     public abstract NameAndGuid toNameAndGuid(Recipe recipe);
+
+    public abstract RecipeRequest toRequest(Recipe recipes);
+
+    public abstract List<RecipeRequest> toRequests(List<Recipe> recipes);
 }

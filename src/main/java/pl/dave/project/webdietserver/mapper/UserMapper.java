@@ -19,6 +19,10 @@ public abstract class UserMapper {
     @Mapping(target = "role", ignore = true)
     public abstract User toEntity(UserRequest request);
 
+    public abstract UserRequest toRequest(User user);
+
+    public abstract List<UserRequest> toRequests(List<User> user);
+
     public abstract UserListRecord toListRecord(User user);
 
     public abstract List<UserListRecord> toListRecords(List<User> user);

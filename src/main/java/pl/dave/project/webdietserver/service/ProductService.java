@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.stereotype.Service;
+import pl.dave.project.webdietserver.dto.product.ProductRequest;
 import pl.dave.project.webdietserver.entity.Product;
 import pl.dave.project.webdietserver.entity.User;
 import pl.dave.project.webdietserver.entity.enums.UserRole;
@@ -95,5 +96,13 @@ public class ProductService {
         } else {
             throw new RestApiException(ErrorCode.DELETE_WRONG_RESOURCE);
         }
+    }
+
+    public List<ProductRequest> mapToRequestList(User user) {
+        log.info("**************************************************************************************************");
+        log.info("Mapping to product requests");
+        log.info("Login user: " + user);
+        List<Product> products = list(user);
+        return mapper.toRequests(products);
     }
 }
