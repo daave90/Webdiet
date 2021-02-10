@@ -13,6 +13,7 @@ import pl.dave.project.webdietserver.service.RecipeService;
 import pl.dave.project.webdietserver.service.UserService;
 import pl.dave.project.webdietserver.utils.ZipFileCreator;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,20 +36,30 @@ public class JsonBackupService implements BackupService {
         log.info("Login user: " + user);
         backupFolderPath = checkIfBackupFolderPathNotEmpty(backupFolderPath);
         try {
-            return createZipFile(backupFolderPath, user);
+            List<String> jsonFilePaths = createJsonFiles(backupFolderPath, user);
+            String zipFilePath = ZipFileCreator.createZipFile(backupFolderPath, jsonFilePaths);
+            removeJsonFiles(jsonFilePaths);
+            return zipFilePath;
         } catch (IOException e) {
             throw new RestApiException("Exception during backup: " + e.getMessage());
         }
     }
 
-    private String createZipFile(String backupFolderPath, User user) throws IOException {
+    private void removeJsonFiles(List<String> filePaths) {
+        filePaths.forEach(filepath -> {
+            File file = new File(filepath);
+            file.delete();
+        });
+    }
+
+    private List<String> createJsonFiles(String backupFolderPath, User user) throws IOException {
         List<String> backupFilePaths = new ArrayList<>();
         backupFilePaths.add(backupProducts(backupFolderPath, user));
         backupFilePaths.add(backupRecipes(backupFolderPath, user));
         if (user.getRole() == UserRole.ADMIN) {
             backupFilePaths.add(backupUsers(backupFolderPath));
         }
-        return ZipFileCreator.createZipFile(backupFolderPath, backupFilePaths);
+        return backupFilePaths;
     }
 
     private String checkIfBackupFolderPathNotEmpty(String backupFolderPath) {
